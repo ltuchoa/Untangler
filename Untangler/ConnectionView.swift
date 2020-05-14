@@ -13,6 +13,7 @@ class ConnectionView: UIView {
     var dragChanged: (() -> Void)?
     var dragFinished: (() -> Void)?
     var touchStartPos = CGPoint.zero
+    var after: ConnectionView!
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
