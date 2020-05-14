@@ -14,9 +14,39 @@ class ConnectionViewController: UIViewController {
     var connections = [ConnectionView]()
     let renderedLines = UIImageView()
     
+    let scoreLabel = UILabel()
+    let levelLabel = UILabel()
+    
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
+    
+    var level = 0 {
+        didSet {
+            levelLabel.text = "LEVEL \(level)"
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        level = 0
+        levelLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        levelLabel.font = levelLabel.font.withSize(24)
+        levelLabel.font = UIFont(name: "Avenir-Black", size: levelLabel.font.pointSize)
+        
+        levelLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(levelLabel)
+        
+        score = 0
+        scoreLabel.textColor = #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        scoreLabel.font = scoreLabel.font.withSize(24)
+        scoreLabel.font = UIFont(name: "Avenir-Black", size: scoreLabel.font.pointSize)
+        
+        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(scoreLabel)
         
         renderedLines.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(renderedLines)
@@ -25,7 +55,14 @@ class ConnectionViewController: UIViewController {
             renderedLines.topAnchor.constraint(equalTo: view.topAnchor),
             renderedLines.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             renderedLines.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            renderedLines.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            renderedLines.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            
+            levelLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            levelLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            
+            scoreLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            scoreLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            
         ])
         
         overrideUserInterfaceStyle = .dark
@@ -155,6 +192,9 @@ class ConnectionViewController: UIViewController {
     
     func checkMove() {
         if levelClear() {
+            score += currentLevel * 2
+            level += 1
+            
             view.isUserInteractionEnabled = false
             
             UIView.animate(withDuration: 0.4, delay: 1, options: [], animations: {
@@ -170,6 +210,9 @@ class ConnectionViewController: UIViewController {
             })
         } else {
             // still playing this level
+            if level != 0 {
+                score -= 1
+            }
         }
     }
     
