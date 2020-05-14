@@ -213,6 +213,14 @@ class ConnectionViewController: UIViewController {
             if level != 0 {
                 score -= 1
             }
+            
+            if score < 0 {
+                let alert = UIAlertController.init(title: "You lost 😢", message: "Better luck next time.", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+                    self.dismiss(animated: true, completion: nil)
+                }))
+                present(alert, animated: true, completion: nil)
+            }
         }
     }
     
