@@ -8,10 +8,10 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class ConnectionViewController: UIViewController {
 
     var currentLevel = 0
-    var connections = [UIView]()
+    var connections = [ConnectionView]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         connections.removeAll()
         
         for _ in 1...(currentLevel + 4) {
-            let connection = UIView(frame: CGRect(origin: .zero, size: CGSize(width: 44, height: 44)))
+            let connection = ConnectionView(frame: CGRect(origin: .zero, size: CGSize(width: 44, height: 44)))
             connection.backgroundColor = .white
             connection.layer.cornerRadius = 22
             
@@ -43,7 +43,7 @@ class ViewController: UIViewController {
         
     }
     
-    func place(_ connection: UIView) {
+    func place(_ connection: ConnectionView) {
         let randomX = CGFloat.random(in: 20...view.bounds.maxX - 20)
         let randomY = CGFloat.random(in: 50...view.bounds.maxY - 50)
         
