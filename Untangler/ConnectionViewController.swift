@@ -53,6 +53,10 @@ class ConnectionViewController: UIViewController {
             connection.dragChanged = { [weak self] in
                 self?.redrawLines()
             }
+            
+            connection.dragFinished = { [weak self] in
+                self?.checkMove()
+            }
         }
         
         for i in 0..<connections.count {
@@ -63,7 +67,10 @@ class ConnectionViewController: UIViewController {
             }
         }
         
-        connections.forEach(place(_:))
+        repeat {
+            connections.forEach(place(_:))
+        } while levelClear()
+        
         redrawLines()
         
     }
@@ -134,6 +141,37 @@ class ConnectionViewController: UIViewController {
         return nil
     }
 
-
+    func levelClear() -> Bool {
+        for connection in connections {
+            for other in connections {
+                if linesCross(start1: connection.center, end1: connection.after.center, start2: other.center, end2: other.after.center) != nil {
+                    return false
+                }
+            }
+        }
+        
+        return true
+    }
+    
+    func checkMove() {
+        if levelClear() {
+            view.isUserInteractionEnabled = false
+            
+            UIView.animate(withDuration: 0.4, delay: 1, options: [], animations: {
+                self.renderedLines.alpha = 0
+                
+                for connection in self.connections {
+                    connection.alpha = 0
+                }
+            }, completion: { finished in
+                self.view.isUserInteractionEnabled = true
+                self.renderedLines.alpha = 1
+                self.levelUp()
+            })
+        } else {
+            // still playing this level
+        }
+    }
+    
 }
 
