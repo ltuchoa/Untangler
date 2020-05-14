@@ -15,9 +15,9 @@ class ConnectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         
-        view.backgroundColor = .black
+        overrideUserInterfaceStyle = .dark
+        view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
         
         levelUp()
     }
